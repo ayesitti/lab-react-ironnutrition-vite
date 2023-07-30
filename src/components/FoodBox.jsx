@@ -1,23 +1,24 @@
 import React from "react";
+import { Card, Col, Button } from "antd";
 
-function FoodBox(props) {
-  const { name, calories, image, servings } = props.food;
-  const totalCalories = servings * calories;
+function FoodBox({ food, handleDelete }) {
+  // const { name, calories, image, servings } = props.food;
+  // const totalCalories = servings * calories;
   return (
-    <div>
-      <p>{name}</p>
+    <Col>
+      <Card title={food.name} style={{ width: 230, height: 300, margin: 10 }}>
+        <img src={food.image} alt="food" height={60} />
 
-      <img src={image} alt={name} style={{ width: "150px" }} />
+        <p>Calories: {food.calories}</p>
+        <p>Servings{food.servings}</p>
 
-      <p>Calories: {calories}</p>
-      <p>Servings{servings}</p>
+        <p>
+          <b>Total Calories: {food.calories * food.servings}</b> kcal
+        </p>
 
-      <p>
-        <b>Total Calories: {totalCalories}kcal </b>
-      </p>
-
-      <button onClick={() => props.handleDelete(props.food.id)}>Delete</button>
-    </div>
+        <Button onClick={() => handleDelete(food.id)}>Delete</Button>
+      </Card>
+    </Col>
   );
 }
 

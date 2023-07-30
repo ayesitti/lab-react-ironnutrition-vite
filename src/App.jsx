@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import FoodBox from "./components/FoodBox";
 import AddFoodForm from "./components/AddFoodForm";
 import { Divider } from "antd";
-import Search from "../style-guide/Search.example";
+import Search from "./components/Search";
 
 const foods = foodsJson;
 
@@ -18,27 +18,34 @@ function App() {
   }
 
   function addFood(food) {
-    const copy = [...foodList];
-    copy.push(food);
-    setFoodList(copy);
+    // const copy = [...foodList];
+    // copy.push(food);
+    // setFoodList(copy);
+    setFoodList([...foodList, food]);
   }
 
+  function handleSearch(value) {
+    setSearchString(value);
+  }
   //Add a variable
   let foodToDisplay;
   if (!searchString) {
-    foodToDisplay = foods;
+    foodToDisplay = foodList;
   } else {
-    foodToDisplay = foods.filter((food) => food.name.toLowerCase());
+    foodToDisplay = foodList.filter((food) =>
+      food.name.toLowerCase().includes(searchString.toLowerCase())
+    );
   }
   return (
     <div className="App">
-      <AddFoodForm foodie={addFood} />
       <h1>LAB | React IronNutrition</h1>
+      <AddFoodForm foodie={addFood} />
+
       <Search searchString={searchString} handleSearch={setSearchString} />
 
       <Divider>Add Food Entry</Divider>
       {/* foodList.map - change to foodToDisplay.map */}
-      {foodList.map((food) => {
+      {foodToDisplay.map((food) => {
         return (
           <FoodBox key={food.id} food={food} handleDelete={handleDelete} />
         );
